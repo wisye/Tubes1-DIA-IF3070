@@ -7,11 +7,13 @@ int main(){
 
 	init_cube(cube);
 	
-	while(!check_cube(cube)){
-		shuffle_cube(cube);
+	// while(!check_cube(cube)){
+	// 	shuffle_cube(cube);
+	// }
+	test(cube);
+	if(check_cube(cube)){
+		display_cube(cube);
 	}
-
-	display_cube(cube);
 
 	free(cube);
 	return 0;

@@ -21,3 +21,4 @@ void shuffle_cube(Cube *cube);
 void shuffle(uint8_t *array, size_t n);
 
 bool check_cube(Cube *cube);
+void test(Cube *cube);
