@@ -6,6 +6,11 @@ int main(){
 	if (cube == NULL) return 1;
 
 	init_cube(cube);
+	
+	while(!check_cube(cube)){
+		shuffle_cube(cube);
+	}
+
 	display_cube(cube);
 
 	free(cube);

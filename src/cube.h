@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdbool.h>
 
 #define SIZE 5
 #define TOTAL_VALUES (SIZE * SIZE * SIZE)
@@ -18,3 +19,5 @@ void init_cube(Cube *cube);
 void display_cube(Cube *cube);
 void shuffle_cube(Cube *cube);
 void shuffle(uint8_t *array, size_t n);
+
+bool check_cube(Cube *cube);
