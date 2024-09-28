@@ -11,3 +11,5 @@ Objective function membuat ada h = 109 rusuk yang nilainya menjadi magic number 
 ```make```
 > To run the program
 ```make run```
+> To build the program
+```make build```
