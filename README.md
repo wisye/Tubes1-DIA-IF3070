@@ -8,6 +8,6 @@ Karena semua bilangan berurutan dan tidak ada yang berulang, maka bisa mencari m
 Objective function membuat ada h = 109 rusuk yang nilainya menjadi magic number yaitu 315.
 
 > To build and run the program
-```c
-make
-```
+```make```
+> To run the program
+```make run```
