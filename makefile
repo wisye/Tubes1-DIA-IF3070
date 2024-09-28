@@ -1,4 +1,5 @@
 CC = gcc
+CP = g++
 
 SOURCE_FOLDER = src
 OUTPUT_FOLDER = bin
@@ -12,3 +13,6 @@ build:
 
 run:
 	@./$(OUTPUT_FOLDER)/bin
+
+example:
+	@$(CP) $(WARNING_CFLAG) $(SOURCE_FOLDER)/example/hillsteep_queen.cpp -o $(OUTPUT_FOLDER)/hillsteep_queen
