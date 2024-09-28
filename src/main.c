@@ -15,6 +15,7 @@ int main(){
 		display_cube(cube);
 	}
 
+	printf("\n\n%d\n", calculate_fitness(cube));
 	free(cube);
 	return 0;
 }

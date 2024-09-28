@@ -6,6 +6,7 @@
 
 #define SIZE 5
 #define TOTAL_VALUES (SIZE * SIZE * SIZE)
+#define MAGIC_NUMBER 315
 
 typedef struct {
 	uint8_t value;
@@ -21,4 +22,5 @@ void shuffle_cube(Cube *cube);
 void shuffle(uint8_t *array, size_t n);
 
 bool check_cube(Cube *cube);
+int calculate_fitness(Cube *cube);
 void test(Cube *cube);
