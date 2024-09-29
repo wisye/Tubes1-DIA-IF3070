@@ -32,7 +32,7 @@ void sahc(Cube *cube)
 		improved = false;
 		h_best = h_current;
 
-		for (u1 = 0; u1 < TOTAL_VALUES; u1++)
+		for (u1 = 0; u1 < TOTAL_VALUES - 1; u1++)
 		{
 			for (u2 = u1 + 1; u2 < TOTAL_VALUES; u2++)
 			{
