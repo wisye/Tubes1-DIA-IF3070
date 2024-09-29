@@ -2,6 +2,7 @@
 
 #include "cube.h"
 #include "Steepest Ascent Hill-Climbing/sahc.h"
+#include "Hill-climbing with Sideways Move/hcsm.h"
 int main()
 {
 	Cube *cube = (Cube *)malloc(sizeof(Cube));
@@ -22,12 +23,21 @@ int main()
 	// printf("\n\n%d\n", calculate_heuristics(cube));
 
 	//? BAWAH TESTING ALGORITHM
-	printf("Before SAHC\n");
+	// printf("Before SAHC\n");
+	// display_cube(cube);
+
+	// sahc(cube);
+
+	// printf("After SAHC\n");
+	// display_cube(cube);
+
+	//
+	printf("Before HCSM\n");
 	display_cube(cube);
 
-	sahc(cube);
+	hcsm(cube);
 
-	printf("After SAHC\n");
+	printf("After hcsm\n");
 	display_cube(cube);
 
 	free(cube);

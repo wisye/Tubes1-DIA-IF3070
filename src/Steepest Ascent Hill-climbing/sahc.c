@@ -39,7 +39,7 @@ void sahc(Cube *cube)
 				//? swap
 				swap(linear_cube[u1], linear_cube[u2]);
 
-				//? hitung fitness
+				//? hitung heuristics
 				h_new = calculate_heuristics(cube);
 
 				//? kalo heuristicsny lebih bagus, update h_best
