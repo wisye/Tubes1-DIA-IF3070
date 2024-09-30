@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
 #include "cube.h"
-#include "Steepest Ascent Hill-Climbing/sahc.h"
-#include "Hill-climbing with Sideways Move/hcsm.h"
+#include "Steepest_Ascent_Hill-climbing/sahc.h"
+#include "Hill-climbing_with_Sideways_Move/hcsm.h"
 int main()
 {
 	Cube *cube = (Cube *)malloc(sizeof(Cube));
@@ -10,6 +10,7 @@ int main()
 		return 1;
 
 	init_cube(cube);
+	test(cube);
 
 	// while(!check_cube(cube)){
 	// 	shuffle_cube(cube);
@@ -35,7 +36,7 @@ int main()
 	printf("Before HCSM\n");
 	display_cube(cube);
 
-	hcsm(cube);
+	sahc(cube);
 
 	printf("After hcsm\n");
 	display_cube(cube);
