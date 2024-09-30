@@ -12,12 +12,12 @@
 #define MAGIC_NUMBER 315
 #define TOTAL_EDGES 109
 
-typedef struct
+typedef struct __attribute__((packed))
 {
 	uint8_t value;
 } Block;
 
-typedef struct
+typedef struct __attribute__((packed))
 {
 	Block blocks[SIZE][SIZE][SIZE];
 } Cube;
