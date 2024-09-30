@@ -12,36 +12,14 @@ int main()
 		return 1;
 
 	init_cube(cube);
+	// choice(cube);
 
 	// test(cube);
 
-	// while(!check_cube(cube)){
-	// 	shuffle_cube(cube);
-	// }
-	// test(cube);
-	// if (check_cube(cube))
-	// {
-	// 	display_cube(cube);
-	// }
-
-	// printf("\n\n%d\n", calculate_heuristics(cube));
-
-	//? BAWAH TESTING ALGORITHM
-	// printf("Before SAHC\n");
-	// display_cube(cube);
-
-	// sahc(cube);
-
-	// printf("After SAHC\n");
-	// display_cube(cube);
-
-	//
-	printf("Before HCSM\n");
 	display_cube(cube);
 
 	sahc(cube);
 
-	printf("After hcsm\n");
 	display_cube(cube);
 
 	free(cube);
