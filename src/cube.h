@@ -15,6 +15,7 @@
 typedef struct
 {
 	uint8_t value;
+	uint8_t pos;
 } Block;
 
 typedef struct

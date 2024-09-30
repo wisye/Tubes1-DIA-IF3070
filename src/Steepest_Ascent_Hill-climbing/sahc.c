@@ -23,8 +23,6 @@ void sahc(Cube *cube)
 			}
 		}
 	}
-	//* NGE TEST SWAP tdi entah gabisa ke swap
-	// swap(linear_cube[0], linear_cube[124]);
 
 	h_current = calculate_heuristics(cube);
 	while (improved && h_current < TOTAL_EDGES)

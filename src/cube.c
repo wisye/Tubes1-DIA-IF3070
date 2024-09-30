@@ -3,6 +3,7 @@
 void init_cube(Cube *cube)
 {
 	uint8_t value = 1;
+	uint8_t pos = 0;
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
@@ -10,6 +11,7 @@ void init_cube(Cube *cube)
 			for (int k = 0; k < SIZE; k++)
 			{
 				cube->blocks[i][j][k].value = value++;
+				cube->blocks[i][j][k].pos = pos++;
 			}
 		}
 	}

@@ -18,24 +18,27 @@ int main()
 
 	display_cube(cube);
 
-	sahc(cube);
+	// sahc(cube);
 
-	display_cube(cube);
+	// display_cube(cube);
 
 	free(cube);
 	return 0;
 }
 
-void choice(Cube *cube){
+void choice(Cube *cube)
+{
 	puts("make ur choice");
 
 	char input[80];
 	fgets(input, 80, stdin);
 
-	if(!strcmp(input, "sahc")){
+	if (!strcmp(input, "sahc"))
+	{
 		sahc(cube);
 	}
-	else if(!strcmp(input, "hcsm")){
+	else if (!strcmp(input, "hcsm"))
+	{
 		hcsm(cube);
 	}
 }
