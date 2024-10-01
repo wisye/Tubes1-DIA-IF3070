@@ -24,7 +24,7 @@ void rrhc(Cube *cube) {
 	bool reached_local_maximum = false;
 	int total_sideways = 0;
 
-	while ((improved || reached_local_maximum) && h_current < TOTAL_EDGES && restarted < 100) {
+	while ((improved || reached_local_maximum) && h_current < TOTAL_EDGES && restarted < 10) {
 
 		if (reached_local_maximum == true) {
 			shuffle_cube(cube);

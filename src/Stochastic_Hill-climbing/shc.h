@@ -3,6 +3,6 @@
 #ifndef _SHC_
 #define _SHC_
 
-void shc(Cube *c, int n);
+void shc(Cube *c);
 
 #endif

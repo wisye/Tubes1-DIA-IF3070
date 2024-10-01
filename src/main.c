@@ -5,6 +5,7 @@
 #include "Hill-climbing_with_Sideways_Move/hcsm.h"
 #include "Random_Restart_Hill-climbing/rrhc.h"
 #include "Steepest_Ascent_Hill-climbing/sahc.h"
+#include "Stochastic_Hill-climbing/shc.h"
 #include "cube.h"
 
 int main() {
@@ -16,15 +17,10 @@ int main() {
 	init_cube(cube);
 	// choice(cube);
 
-	// test(cube);
-
-	// display_cube(cube);
-
 	// sahc(cube);
-
-	// display_cube(cube);
 	// hcsm(cube);
-	rrhc(cube);
+	// rrhc(cube);
+	shc(cube);
 	free(cube);
 	return 0;
 }
