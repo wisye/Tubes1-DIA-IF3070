@@ -1,31 +1,22 @@
 #include "cube.h"
 
-void init_cube(Cube *cube)
-{
+void init_cube(Cube *cube) {
 	uint8_t value = 1;
-	uint8_t pos = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int j = 0; j < SIZE; j++)
-		{
-			for (int k = 0; k < SIZE; k++)
-			{
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			for (int k = 0; k < SIZE; k++) {
+				cube->blocks[i][j][k].pos = value - 1;
 				cube->blocks[i][j][k].value = value++;
-				cube->blocks[i][j][k].pos = pos++;
 			}
 		}
 	}
 	shuffle_cube(cube);
 }
 
-void display_cube(Cube *cube)
-{
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int j = 0; j < SIZE; j++)
-		{
-			for (int k = 0; k < SIZE; k++)
-			{
+void display_cube(Cube *cube) {
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			for (int k = 0; k < SIZE; k++) {
 				printf("%d ", cube->blocks[i][j][k].value);
 			}
 			printf("\n");
@@ -34,273 +25,238 @@ void display_cube(Cube *cube)
 	}
 }
 
-void shuffle(uint8_t *array, size_t n)
-{
-	if (n > 1)
-	{
-		for (size_t i = 0; i < n - 1; i++)
-		{
-			size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
-			uint8_t t = array[i];
-			array[i] = array[j];
-			array[j] = t;
-		}
+void shuffle(Block *array) {
+	size_t n = TOTAL_VALUES;
+	for (size_t i = 0; i < n - 1; i++) {
+		size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
+		uint8_t t = array[i].value;
+		uint8_t p = array[i].pos;
+
+		array[i].value = array[j].value;
+		array[i].pos = array[j].pos;
+
+		array[j].value = t;
+		array[j].pos = p;
 	}
 }
 
-void shuffle_cube(Cube *cube)
-{
+void shuffle_cube(Cube *cube) {
 	srand(time(NULL));
 
-	uint8_t flat_array[TOTAL_VALUES];
-	size_t index = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int j = 0; j < SIZE; j++)
-		{
-			for (int k = 0; k < SIZE; k++)
-			{
-				flat_array[index++] = cube->blocks[i][j][k].value;
+	Block *flat_array = flatten_cube(cube);
+
+	shuffle(flat_array);
+
+	uint8_t index = 0;
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			for (int k = 0; k < SIZE; k++) {
+				cube->blocks[i][j][k].value = flat_array[index++].value;
 			}
 		}
 	}
-
-	shuffle(flat_array, TOTAL_VALUES);
-
-	index = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int j = 0; j < SIZE; j++)
-		{
-			for (int k = 0; k < SIZE; k++)
-			{
-				cube->blocks[i][j][k].value = flat_array[index++];
-			}
-		}
-	}
+	free(flat_array);
 }
 
-bool check_cube(Cube *cube)
-{
+bool check_cube(Cube *cube) {
 	// Check rows
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int j = 0; j < SIZE; j++)
-		{
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
 			int row_sum = 0;
-			for (int k = 0; k < SIZE; k++)
-			{
+			for (int k = 0; k < SIZE; k++) {
 				row_sum += cube->blocks[i][j][k].value;
 			}
-			if (row_sum != MAGIC_NUMBER)
-				return false;
+			if (row_sum != MAGIC_NUMBER) return false;
 		}
 	}
 
 	// Check columns
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int k = 0; k < SIZE; k++)
-		{
+	for (int i = 0; i < SIZE; i++) {
+		for (int k = 0; k < SIZE; k++) {
 			int col_sum = 0;
-			for (int j = 0; j < SIZE; j++)
-			{
+			for (int j = 0; j < SIZE; j++) {
 				col_sum += cube->blocks[i][j][k].value;
 			}
-			if (col_sum != MAGIC_NUMBER)
-				return false;
+			if (col_sum != MAGIC_NUMBER) return false;
 		}
 	}
 
 	// Check depths
-	for (int j = 0; j < SIZE; j++)
-	{
-		for (int k = 0; k < SIZE; k++)
-		{
+	for (int j = 0; j < SIZE; j++) {
+		for (int k = 0; k < SIZE; k++) {
 			int depth_sum = 0;
-			for (int i = 0; i < SIZE; i++)
-			{
+			for (int i = 0; i < SIZE; i++) {
 				depth_sum += cube->blocks[i][j][k].value;
 			}
-			if (depth_sum != MAGIC_NUMBER)
-				return false;
+			if (depth_sum != MAGIC_NUMBER) return false;
 		}
 	}
 
 	// Check main diagonals in each plane
-	for (int i = 0; i < SIZE; i++)
-	{
+	for (int i = 0; i < SIZE; i++) {
 		int diag1_sum = 0, diag2_sum = 0;
-		for (int j = 0; j < SIZE; j++)
-		{
+		for (int j = 0; j < SIZE; j++) {
 			diag1_sum += cube->blocks[i][j][j].value;
 			diag2_sum += cube->blocks[i][j][SIZE - j - 1].value;
 		}
-		if (diag1_sum != MAGIC_NUMBER || diag2_sum != MAGIC_NUMBER)
-			return false;
+		if (diag1_sum != MAGIC_NUMBER || diag2_sum != MAGIC_NUMBER) return false;
 	}
 
-	for (int j = 0; j < SIZE; j++)
-	{
+	for (int j = 0; j < SIZE; j++) {
 		int diag1_sum = 0, diag2_sum = 0;
-		for (int i = 0; i < SIZE; i++)
-		{
+		for (int i = 0; i < SIZE; i++) {
 			diag1_sum += cube->blocks[i][j][i].value;
 			diag2_sum += cube->blocks[i][j][SIZE - i - 1].value;
 		}
-		if (diag1_sum != MAGIC_NUMBER || diag2_sum != MAGIC_NUMBER)
-			return false;
+		if (diag1_sum != MAGIC_NUMBER || diag2_sum != MAGIC_NUMBER) return false;
 	}
 
-	for (int k = 0; k < SIZE; k++)
-	{
+	for (int k = 0; k < SIZE; k++) {
 		int diag1_sum = 0, diag2_sum = 0;
-		for (int i = 0; i < SIZE; i++)
-		{
+		for (int i = 0; i < SIZE; i++) {
 			diag1_sum += cube->blocks[i][i][k].value;
 			diag2_sum += cube->blocks[i][SIZE - i - 1][k].value;
 		}
-		if (diag1_sum != MAGIC_NUMBER || diag2_sum != MAGIC_NUMBER)
-			return false;
+		if (diag1_sum != MAGIC_NUMBER || diag2_sum != MAGIC_NUMBER) return false;
 	}
 
 	// Check space diagonals
 	int space_diag1_sum = 0, space_diag2_sum = 0, space_diag3_sum = 0, space_diag4_sum = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
+	for (int i = 0; i < SIZE; i++) {
 		space_diag1_sum += cube->blocks[i][i][i].value;
 		space_diag2_sum += cube->blocks[i][i][SIZE - i - 1].value;
 		space_diag3_sum += cube->blocks[i][SIZE - i - 1][i].value;
 		space_diag4_sum += cube->blocks[SIZE - i - 1][i][i].value;
 	}
-	if (space_diag1_sum != MAGIC_NUMBER || space_diag2_sum != MAGIC_NUMBER || space_diag3_sum != MAGIC_NUMBER || space_diag4_sum != MAGIC_NUMBER)
+	if (space_diag1_sum != MAGIC_NUMBER || space_diag2_sum != MAGIC_NUMBER || space_diag3_sum != MAGIC_NUMBER ||
+	    space_diag4_sum != MAGIC_NUMBER)
 		return false;
 
 	return true;
 }
 
-int calculate_heuristics(Cube *cube)
-{
+int calculate_heuristics(Cube *cube) {
 	int heuristics = 0;
 
 	// Check rows
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int j = 0; j < SIZE; j++)
-		{
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
 			int row_sum = 0;
-			for (int k = 0; k < SIZE; k++)
-			{
+			for (int k = 0; k < SIZE; k++) {
 				row_sum += cube->blocks[i][j][k].value;
 			}
-			if (row_sum == MAGIC_NUMBER)
-				heuristics++;
+			if (row_sum == MAGIC_NUMBER) heuristics++;
 		}
 	}
 
 	// Check columns
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int k = 0; k < SIZE; k++)
-		{
+	for (int i = 0; i < SIZE; i++) {
+		for (int k = 0; k < SIZE; k++) {
 			int col_sum = 0;
-			for (int j = 0; j < SIZE; j++)
-			{
+			for (int j = 0; j < SIZE; j++) {
 				col_sum += cube->blocks[i][j][k].value;
 			}
-			if (col_sum == MAGIC_NUMBER)
-				heuristics++;
+			if (col_sum == MAGIC_NUMBER) heuristics++;
 		}
 	}
 
 	// Check depths
-	for (int j = 0; j < SIZE; j++)
-	{
-		for (int k = 0; k < SIZE; k++)
-		{
+	for (int j = 0; j < SIZE; j++) {
+		for (int k = 0; k < SIZE; k++) {
 			int depth_sum = 0;
-			for (int i = 0; i < SIZE; i++)
-			{
+			for (int i = 0; i < SIZE; i++) {
 				depth_sum += cube->blocks[i][j][k].value;
 			}
-			if (depth_sum == MAGIC_NUMBER)
-				heuristics++;
+			if (depth_sum == MAGIC_NUMBER) heuristics++;
 		}
 	}
 
 	// Check main diagonals in each plane
-	for (int i = 0; i < SIZE; i++)
-	{
+	for (int i = 0; i < SIZE; i++) {
 		int diag1_sum = 0, diag2_sum = 0;
-		for (int j = 0; j < SIZE; j++)
-		{
+		for (int j = 0; j < SIZE; j++) {
 			diag1_sum += cube->blocks[i][j][j].value;
 			diag2_sum += cube->blocks[i][j][SIZE - j - 1].value;
 		}
-		if (diag1_sum == MAGIC_NUMBER)
-			heuristics++;
-		if (diag2_sum == MAGIC_NUMBER)
-			heuristics++;
+		if (diag1_sum == MAGIC_NUMBER) heuristics++;
+		if (diag2_sum == MAGIC_NUMBER) heuristics++;
 	}
 
-	for (int j = 0; j < SIZE; j++)
-	{
+	for (int j = 0; j < SIZE; j++) {
 		int diag1_sum = 0, diag2_sum = 0;
-		for (int i = 0; i < SIZE; i++)
-		{
+		for (int i = 0; i < SIZE; i++) {
 			diag1_sum += cube->blocks[i][j][i].value;
 			diag2_sum += cube->blocks[i][j][SIZE - i - 1].value;
 		}
-		if (diag1_sum == MAGIC_NUMBER)
-			heuristics++;
-		if (diag2_sum == MAGIC_NUMBER)
-			heuristics++;
+		if (diag1_sum == MAGIC_NUMBER) heuristics++;
+		if (diag2_sum == MAGIC_NUMBER) heuristics++;
 	}
 
-	for (int k = 0; k < SIZE; k++)
-	{
+	for (int k = 0; k < SIZE; k++) {
 		int diag1_sum = 0, diag2_sum = 0;
-		for (int i = 0; i < SIZE; i++)
-		{
+		for (int i = 0; i < SIZE; i++) {
 			diag1_sum += cube->blocks[i][i][k].value;
 			diag2_sum += cube->blocks[i][SIZE - i - 1][k].value;
 		}
-		if (diag1_sum == MAGIC_NUMBER)
-			heuristics++;
-		if (diag2_sum == MAGIC_NUMBER)
-			heuristics++;
+		if (diag1_sum == MAGIC_NUMBER) heuristics++;
+		if (diag2_sum == MAGIC_NUMBER) heuristics++;
 	}
 
 	// Check space diagonals
 	int space_diag1_sum = 0, space_diag2_sum = 0, space_diag3_sum = 0, space_diag4_sum = 0;
-	for (int i = 0; i < SIZE; i++)
-	{
+	for (int i = 0; i < SIZE; i++) {
 		space_diag1_sum += cube->blocks[i][i][i].value;
 		space_diag2_sum += cube->blocks[i][i][SIZE - i - 1].value;
 		space_diag3_sum += cube->blocks[i][SIZE - i - 1][i].value;
 		space_diag4_sum += cube->blocks[SIZE - i - 1][i][i].value;
 	}
-	if (space_diag1_sum == MAGIC_NUMBER)
-		heuristics++;
-	if (space_diag2_sum == MAGIC_NUMBER)
-		heuristics++;
-	if (space_diag3_sum == MAGIC_NUMBER)
-		heuristics++;
-	if (space_diag4_sum == MAGIC_NUMBER)
-		heuristics++;
+	if (space_diag1_sum == MAGIC_NUMBER) heuristics++;
+	if (space_diag2_sum == MAGIC_NUMBER) heuristics++;
+	if (space_diag3_sum == MAGIC_NUMBER) heuristics++;
+	if (space_diag4_sum == MAGIC_NUMBER) heuristics++;
 
 	return heuristics;
 }
 
-void swap(uint8_t *u1, uint8_t *u2)
-{
+void swap(uint8_t *u1, uint8_t *u2) {
 	uint8_t temp = *u1;
 	*u1 = *u2;
 	*u2 = temp;
 }
 
-void test(Cube *cube)
-{
+Block *flatten_cube(Cube *cube) {
+	Block *flat_array = (Block *)malloc(sizeof(Block) * (TOTAL_VALUES));
+
+	size_t index = 0;
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			for (int k = 0; k < SIZE; k++) {
+				flat_array[index].pos = cube->blocks[i][j][k].pos;
+				flat_array[index].value = cube->blocks[i][j][k].value;
+				index++;
+			}
+		}
+	}
+	return flat_array;
+}
+
+Cube *unflatten_cube(Block *flat_array) {
+	Cube *cube = (Cube *)malloc(sizeof(Cube));
+
+	size_t index = 0;
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			for (int k = 0; k < SIZE; k++) {
+				cube->blocks[i][j][k].pos = flat_array[index].pos;
+				cube->blocks[i][j][k].value = flat_array[index].value;
+				index++;
+			}
+		}
+	}
+	return cube;
+}
+
+void test(Cube *cube) {
 	cube->blocks[0][0][0].value = 25;
 	cube->blocks[0][0][1].value = 16;
 	cube->blocks[0][0][2].value = 80;
@@ -448,6 +404,4 @@ void test(Cube *cube)
 	cube->blocks[4][4][0].value = 36;
 	cube->blocks[4][4][1].value = 110;
 	cube->blocks[4][4][2].value = 46;
-	cube->blocks[4][4][3].value = 22;
-	cube->blocks[4][4][4].value = 101;
 }
