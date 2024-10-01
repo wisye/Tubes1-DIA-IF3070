@@ -19,3 +19,6 @@ run:
 
 example:
 	@$(CP) $(WARNING_CFLAG) $(SOURCE_FOLDER)/example/hillsteep_queen.cpp -o $(OUTPUT_FOLDER)/hillsteep_queen
+
+clear:
+	@rm -rf bin/*

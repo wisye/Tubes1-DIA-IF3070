@@ -1,0 +1,10 @@
+BasedOnStyle: LLVM
+IndentWidth: 8
+BreakBeforeBraces: Custom
+PointerAlignment: Right
+UseTab: ForIndentation
+AllowShortIfStatementsOnASingleLine: true
+ColumnLimit: 120
+BraceWrapping:
+  BeforeCatch: true
+  BeforeElse: true
