@@ -33,5 +33,6 @@ void mutate(Chromosome *chromosome, double mutation_rate);
 void elitism(Chromosomes_list *cl, Chromosomes_list *new_cl, int elite_size);
 void shuffle_population(Chromosomes_list *cl);
 Chromosome *tournament_selection(Chromosomes_list *cl, int tournament_size);
+void crossover(Chromosome *state1, Chromosome *state2);
 
 #endif

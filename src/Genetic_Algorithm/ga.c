@@ -186,3 +186,52 @@ void elitism(Chromosomes_list *cl, Chromosomes_list *new_cl, int elite_size) {
 		new_cl->chromosomes[i] = cl->chromosomes[i];
 	}
 }
+
+void crossover(Chromosome *state1, Chromosome *state2) {
+	srand(time(NULL));
+	int crossover_point = rand() % TOTAL_VALUES;
+
+	// Perform single-point crossover
+	for (int i = crossover_point; i < TOTAL_VALUES; i++) {
+		Block temp = state1->flat_array[i];
+		state1->flat_array[i] = state2->flat_array[i];
+		state2->flat_array[i] = temp;
+	}
+
+	// Ensure uniqueness in state1
+	int value_count[TOTAL_VALUES] = {0};
+	for (int i = 0; i < TOTAL_VALUES; i++) {
+		value_count[state1->flat_array[i].value]++;
+	}
+	for (int i = 0; i < TOTAL_VALUES; i++) {
+		if (value_count[state1->flat_array[i].value] > 1) {
+			for (int j = 0; j < TOTAL_VALUES; j++) {
+				if (value_count[j] == 0) {
+					value_count[state1->flat_array[i].value]--;
+					state1->flat_array[i].value = j;
+					value_count[j]++;
+					break;
+				}
+			}
+		}
+	}
+	// Ensure uniqueness in state2
+	for (int i = 0; i < TOTAL_VALUES; i++) {
+		value_count[i] = 0;
+	}
+	for (int i = 0; i < TOTAL_VALUES; i++) {
+		value_count[state2->flat_array[i].value]++;
+	}
+	for (int i = 0; i < TOTAL_VALUES; i++) {
+		if (value_count[state2->flat_array[i].value] > 1) {
+			for (int j = 0; j < TOTAL_VALUES; j++) {
+				if (value_count[j] == 0) {
+					value_count[state2->flat_array[i].value]--;
+					state2->flat_array[i].value = j;
+					value_count[j]++;
+					break;
+				}
+			}
+		}
+	}
+}
