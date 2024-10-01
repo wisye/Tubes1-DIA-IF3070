@@ -22,8 +22,9 @@ void rrhc(Cube *cube) {
 
 	h_current = calculate_heuristics(cube);
 	bool reached_local_maximum = false;
+	int total_sideways = 0;
 
-	while ((improved || reached_local_maximum) && h_current < TOTAL_EDGES) {
+	while ((improved || reached_local_maximum) && h_current < TOTAL_EDGES && restarted < 100) {
 
 		if (reached_local_maximum == true) {
 			shuffle_cube(cube);
@@ -46,6 +47,13 @@ void rrhc(Cube *cube) {
 
 				//? kalo heuristicsny lebih bagus, update h_best
 				if (h_new > h_best) {
+					h_best = h_new;
+					best_u1 = u1;
+					best_u2 = u2;
+					improved = true;
+				}
+				else if (h_new == h_best && total_sideways < 2000) {
+					total_sideways++;
 					h_best = h_new;
 					best_u1 = u1;
 					best_u2 = u2;

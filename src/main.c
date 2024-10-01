@@ -3,6 +3,7 @@
 
 #include "Genetic_Algorithm/ga.h"
 #include "Hill-climbing_with_Sideways_Move/hcsm.h"
+#include "Random_Restart_Hill-climbing/rrhc.h"
 #include "Steepest_Ascent_Hill-climbing/sahc.h"
 #include "cube.h"
 
@@ -10,9 +11,9 @@ int main() {
 	Cube *cube = (Cube *)malloc(sizeof(Cube));
 	if (cube == NULL) return 1;
 
-	ga();
+	// ga();
 
-	// init_cube(cube);
+	init_cube(cube);
 	// choice(cube);
 
 	// test(cube);
@@ -22,7 +23,8 @@ int main() {
 	// sahc(cube);
 
 	// display_cube(cube);
-
+	// hcsm(cube);
+	rrhc(cube);
 	free(cube);
 	return 0;
 }

@@ -26,11 +26,13 @@ void sahc(Cube *cube) {
 		improved = false;
 		h_best = h_current;
 
+		// int combination = 0;
+
 		for (u1 = 0; u1 < TOTAL_VALUES - 1; u1++) {
 			for (u2 = u1 + 1; u2 < TOTAL_VALUES; u2++) {
 				//? swap
 				swap(linear_cube[u1], linear_cube[u2]);
-
+				// combination++;
 				//? hitung heuristics
 				h_new = calculate_heuristics(cube);
 
@@ -63,5 +65,6 @@ void sahc(Cube *cube) {
 			printf("Stopped at iteration %d\n", iterations);
 			printf("Local maximum found with h = %d\n", h_current);
 		}
+		// printf("Total combinations: %d\n", combination);
 	}
 }
