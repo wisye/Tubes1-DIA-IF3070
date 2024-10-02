@@ -3,11 +3,10 @@
 #ifndef _GA_
 #define _GA_
 
-#define TOTAL_CHROMOSOME 1000
-#define TOTAL_GENERATION 1000
-#define ELITE_SIZE 15
-#define TOURNAMENT_SIZE 5
-#define MUTATION_RATE 0.1
+#define TOTAL_CHROMOSOME 10000
+#define TOTAL_GENERATION 500
+#define MUTATION_RATE 0.2
+#define EPSILON 1e-3
 
 typedef struct {
 	Block flat_array[TOTAL_VALUES];

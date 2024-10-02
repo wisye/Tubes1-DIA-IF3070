@@ -15,7 +15,8 @@ void ga() {
 	init_chance(cl, total_heuristic);
 
 	for (int i = 0; i < TOTAL_GENERATION; i++) {
-		for (int j = ELITE_SIZE; j < TOTAL_CHROMOSOME; j += 2) {
+		printf("Current generation: %d\n", i);
+		for (int j = 0; j < TOTAL_CHROMOSOME; j += 2) {
 			Chromosome *parent1 = select_parent(cl);
 			Chromosome *parent2 = select_parent(cl);
 
@@ -31,14 +32,19 @@ void ga() {
 			new_cl->chromosomes[j + 1] = child2;
 		}
 
+		Chromosomes_list *temp = cl;
+		cl = new_cl;
+		new_cl = temp;
+
 		total_heuristic = calculate_total_h(cl);
 		init_chance(cl, total_heuristic);
 	}
 
 	sort_chromosome(cl);
-	write_chromosome(cl, fopen("src/Parents/gen-1.txt", "w"));
-	sort_chromosome(cl);
 	write_chromosome(cl, fopen("src/Parents/gen-2.txt", "w"));
+	read_chromosome(cl, fopen("src/Parents/gen-1.txt", "r"));
+	sort_chromosome(cl);
+	write_chromosome(cl, fopen("src/Parents/gen-1.txt", "w"));
 	free(cl);
 	free(new_cl);
 }
@@ -120,7 +126,7 @@ int calculate_total_h(Chromosomes_list *cl) {
 
 void init_chance(Chromosomes_list *cl, int h) {
 	for (int i = 0; i < TOTAL_CHROMOSOME; i++) {
-		cl->chromosomes[i].chance = (double)cl->chromosomes[i].h / (double)h;
+		cl->chromosomes[i].chance = ((double)cl->chromosomes[i].h + EPSILON) / (double)h;
 	}
 }
 
@@ -135,7 +141,6 @@ void sort_chromosome(Chromosomes_list *cl) {
 }
 
 void crossover(Chromosome *state1, Chromosome *state2) {
-	srand(time(NULL));
 	int crossover_point = rand() % TOTAL_VALUES;
 
 	for (int i = crossover_point; i < TOTAL_VALUES; i++) {
