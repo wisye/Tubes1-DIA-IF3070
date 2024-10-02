@@ -72,6 +72,8 @@ void rrhc(Cube *cube) {
 			swap(linear_cube[best_u1], linear_cube[best_u2]);
 			h_current = h_best;
 			iterations++;
+			unflatten_cube2(linear_cube);
+			drawCube(cube);
 			printf("Iteration %d: Improved heuristic to %d\n", iterations, h_current);
 
 			if (h_current == TOTAL_EDGES) {

@@ -3,8 +3,8 @@
 #ifndef _GA_
 #define _GA_
 
-#define TOTAL_CHROMOSOME 10000
-#define TOTAL_GENERATION 500
+#define TOTAL_CHROMOSOME 1000
+#define TOTAL_GENERATION 2000
 #define MUTATION_RATE 0.2
 #define EPSILON 1e-3
 
@@ -18,8 +18,8 @@ typedef struct {
 	Chromosome chromosomes[TOTAL_CHROMOSOME];
 } Chromosomes_list;
 
-void ga();
-void generate_chromosome();
+void ga(Cube *cube);
+void generate_chromosome(Cube *cube);
 void write_chromosome(Chromosomes_list *cl, FILE *file);
 Chromosomes_list *read_chromosome(Chromosomes_list *cl, FILE *file);
 int calculate_total_h(Chromosomes_list *cl);

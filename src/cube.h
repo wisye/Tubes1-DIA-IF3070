@@ -28,6 +28,7 @@ void shuffle(Block *array);
 void swap(uint8_t *u1, uint8_t *u2);
 Block *flatten_cube(Cube *cube);
 Cube *unflatten_cube(Block *flat_array);
+Cube *unflatten_cube2(uint8_t **flat_array);
 
 bool check_cube(Cube *cube);
 int calculate_heuristics(Cube *cube);

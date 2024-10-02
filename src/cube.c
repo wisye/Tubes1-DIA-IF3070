@@ -256,6 +256,21 @@ Cube *unflatten_cube(Block *flat_array) {
 	return cube;
 }
 
+Cube *unflatten_cube2(uint8_t **flat_array) {
+	Cube *cube = (Cube *)malloc(sizeof(Cube));
+
+	size_t index = 0;
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			for (int k = 0; k < SIZE; k++) {
+				cube->blocks[i][j][k].value = *flat_array[index];
+				index++;
+			}
+		}
+	}
+	return cube;
+}
+
 void test(Cube *cube) {
 	cube->blocks[0][0][0].value = 25;
 	cube->blocks[0][0][1].value = 16;
