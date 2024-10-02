@@ -12,7 +12,7 @@ int main() {
 
 	ga();
 
-	// init_cube(cube);
+	init_cube(cube);
 	// choice(cube);
 
 	// test(cube);
