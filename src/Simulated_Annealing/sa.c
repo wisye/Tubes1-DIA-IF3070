@@ -16,9 +16,9 @@ void sa(Cube *cube) {
 	int iterations = 1;
 	int MAX_ITERATIONS = 100000000;
 
-	double initial_temperature = 100000.0;
+	double initial_temperature = 1000.0;
 	double temperature;
-	double cooling_rate = 0.9999;
+	double cooling_rate = 0.999999;
 
 	uint8_t *linear_cube[TOTAL_VALUES];
 	int index = 0;
