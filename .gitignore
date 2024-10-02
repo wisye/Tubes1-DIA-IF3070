@@ -1,3 +1,5 @@
 .vscode/
 bin/*
 src/Parents/*
+!src/Parents/.gitkeep
+!bin/.gitkeep
