@@ -39,6 +39,8 @@ void shc(Cube *cube) {
 		}
 
 		iterations++;
+		unflatten_cube2(linear_cube);
+		drawCube(cube);
 		printf("Iteration %d: Improved heuristic to %d\n", iterations, h_current);
 
 		if (h_current == TOTAL_EDGES) {

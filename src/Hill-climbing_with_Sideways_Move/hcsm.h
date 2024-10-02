@@ -1,4 +1,5 @@
 #include "../cube.h"
+#include "../visualize_cube.h"
 
 #ifndef _HCSM_
 #define _HCSM_

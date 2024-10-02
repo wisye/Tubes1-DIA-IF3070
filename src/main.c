@@ -8,33 +8,17 @@
 #include "Stochastic_Hill-climbing/shc.h"
 #include "cube.h"
 
-int main() {
-	Cube *cube = (Cube *)malloc(sizeof(Cube));
-	if (cube == NULL) return 1;
+// int main() {
+// 	Cube *cube = (Cube *)malloc(sizeof(Cube));
+// 	if (cube == NULL) return 1;
 
-	// ga();
+// 	init_cube(cube);
 
-	init_cube(cube);
-	// choice(cube);
-
-	// sahc(cube);
-	// hcsm(cube);
-	// rrhc(cube);
-	shc(cube);
-	free(cube);
-	return 0;
-}
-
-void choice(Cube *cube) {
-	puts("make ur choice");
-
-	char input[80];
-	fgets(input, 80, stdin);
-
-	if (!strcmp(input, "sahc")) {
-		sahc(cube);
-	}
-	else if (!strcmp(input, "hcsm")) {
-		hcsm(cube);
-	}
-}
+// 	// sahc(cube);
+// 	// hcsm(cube);
+// 	// rrhc(cube);
+// 	// shc(cube);
+// 	ga(cube);
+// 	free(cube);
+// 	return 0;
+// }

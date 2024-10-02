@@ -4,10 +4,10 @@
 
 #include "ga.h"
 
-void ga() {
+void ga(Cube *cube) {
 	srand(time(NULL));
 
-	generate_chromosome();
+	generate_chromosome(cube);
 	Chromosomes_list *cl = (Chromosomes_list *)malloc(sizeof(Chromosomes_list));
 	Chromosomes_list *new_cl = (Chromosomes_list *)malloc(sizeof(Chromosomes_list));
 	read_chromosome(cl, fopen("src/Parents/gen-1.txt", "r"));
@@ -49,10 +49,8 @@ void ga() {
 	free(new_cl);
 }
 
-void generate_chromosome() {
+void generate_chromosome(Cube *cube) {
 	FILE *file = fopen("src/Parents/gen-1.txt", "w");
-	Cube *cube = (Cube *)malloc(sizeof(Cube));
-	init_cube(cube);
 
 	Block *flat_array = flatten_cube(cube);
 	int h;
@@ -68,7 +66,6 @@ void generate_chromosome() {
 		shuffle(flat_array);
 	}
 
-	free(cube);
 	free(flat_array);
 	fclose(file);
 }
@@ -106,12 +103,17 @@ void write_chromosome(Chromosomes_list *cl, FILE *file) {
 }
 
 void mutate(Chromosome *chromosome, double mutation_rate) {
-	for (int i = 0; i < TOTAL_VALUES; i++) {
-		if ((double)rand() / RAND_MAX < mutation_rate) {
-			int pos2 = rand() % TOTAL_VALUES;
-			Block temp = chromosome->flat_array[i];
-			chromosome->flat_array[i] = chromosome->flat_array[pos2];
-			chromosome->flat_array[pos2] = temp;
+	// Determine the number of swaps to perform (between 1 and 10)
+	int num_swaps = 1 + rand() % 10;
+
+	for (int swap_count = 0; swap_count < num_swaps; swap_count++) {
+		for (int i = 0; i < TOTAL_VALUES; i++) {
+			if ((double)rand() / RAND_MAX < mutation_rate) {
+				int pos2 = rand() % TOTAL_VALUES;
+				Block temp = chromosome->flat_array[i];
+				chromosome->flat_array[i] = chromosome->flat_array[pos2];
+				chromosome->flat_array[pos2] = temp;
+			}
 		}
 	}
 }
