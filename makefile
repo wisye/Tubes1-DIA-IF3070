@@ -26,3 +26,4 @@ example:
 
 clear:
 	@rm -rf bin/*
+	@rm -rf src/Parents/*

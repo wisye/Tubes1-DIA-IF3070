@@ -5,27 +5,26 @@
 #include "ga.h"
 
 void ga() {
-	srand(time(NULL)); // Initialize random seed only once
+	srand(time(NULL));
 
 	generate_chromosome();
 	Chromosomes_list *cl = (Chromosomes_list *)malloc(sizeof(Chromosomes_list));
 	Chromosomes_list *new_cl = (Chromosomes_list *)malloc(sizeof(Chromosomes_list));
 	read_chromosome(cl, fopen("src/Parents/gen-1.txt", "r"));
-	sort_chromosome(cl);
-	write_chromosome(cl, fopen("src/Parents/gen-1.txt", "w"));
 	int total_heuristic = calculate_total_h(cl);
 	init_chance(cl, total_heuristic);
 
 	for (int i = 0; i < TOTAL_GENERATION; i++) {
-		elitism(cl, new_cl, ELITE_SIZE);
-		for (int j = ELITE_SIZE; j < TOTAL_CHROMOSOME; j += 2) {
-			Chromosome *parent1 = tournament_selection(cl, TOURNAMENT_SIZE);
-			Chromosome *parent2 = tournament_selection(cl, TOURNAMENT_SIZE);
+		printf("Current generation: %d\n", i);
+		for (int j = 0; j < TOTAL_CHROMOSOME; j += 2) {
+			Chromosome *parent1 = select_parent(cl);
+			Chromosome *parent2 = select_parent(cl);
 
-			// Perform crossover and mutation
 			Chromosome child1 = *parent1;
 			Chromosome child2 = *parent2;
-			two_point_crossover(&child1, &child2);
+
+			crossover(&child1, &child2);
+
 			mutate(&child1, MUTATION_RATE);
 			mutate(&child2, MUTATION_RATE);
 
@@ -33,21 +32,19 @@ void ga() {
 			new_cl->chromosomes[j + 1] = child2;
 		}
 
-		// Swap populations
 		Chromosomes_list *temp = cl;
 		cl = new_cl;
 		new_cl = temp;
 
-		// Shuffle population to maintain diversity
-		shuffle_population(cl);
-
-		// Recalculate total heuristic and chances
 		total_heuristic = calculate_total_h(cl);
 		init_chance(cl, total_heuristic);
 	}
 
 	sort_chromosome(cl);
 	write_chromosome(cl, fopen("src/Parents/gen-2.txt", "w"));
+	read_chromosome(cl, fopen("src/Parents/gen-1.txt", "r"));
+	sort_chromosome(cl);
+	write_chromosome(cl, fopen("src/Parents/gen-1.txt", "w"));
 	free(cl);
 	free(new_cl);
 }
@@ -63,7 +60,7 @@ void generate_chromosome() {
 	for (int i = 0; i < TOTAL_CHROMOSOME; i++) {
 		Cube *c = unflatten_cube(flat_array);
 		h = calculate_heuristics(c);
-		fprintf(file, "%d.", h);
+		fprintf(file, "%d;", h);
 		for (int j = 0; j < TOTAL_VALUES; j++) {
 			fprintf(file, "%d:%d ", flat_array[j].value, flat_array[j].pos);
 		}
@@ -98,7 +95,7 @@ Chromosomes_list *read_chromosome(Chromosomes_list *cl, FILE *file) {
 
 void write_chromosome(Chromosomes_list *cl, FILE *file) {
 	for (int i = 0; i < TOTAL_CHROMOSOME; i++) {
-		fprintf(file, "%d.", cl->chromosomes[i].h);
+		fprintf(file, "%d;", cl->chromosomes[i].h);
 		for (int j = 0; j < TOTAL_VALUES; j++) {
 			fprintf(file, "%d:%d ", cl->chromosomes[i].flat_array[j].value,
 			        cl->chromosomes[i].flat_array[j].pos);
@@ -106,24 +103,6 @@ void write_chromosome(Chromosomes_list *cl, FILE *file) {
 		fprintf(file, "\n");
 	}
 	fclose(file);
-}
-
-void two_point_crossover(Chromosome *state1, Chromosome *state2) {
-	int point1 = rand() % TOTAL_VALUES;
-	int point2 = rand() % TOTAL_VALUES;
-	if (point1 > point2) {
-		int temp = point1;
-		point1 = point2;
-		point2 = temp;
-	}
-
-	for (int i = point1; i <= point2; i++) {
-		Block temp = state1->flat_array[i];
-		state1->flat_array[i] = state2->flat_array[i];
-		state2->flat_array[i] = temp;
-	}
-
-	// Ensure uniqueness in state1 and state2 (same as before)
 }
 
 void mutate(Chromosome *chromosome, double mutation_rate) {
@@ -147,58 +126,29 @@ int calculate_total_h(Chromosomes_list *cl) {
 
 void init_chance(Chromosomes_list *cl, int h) {
 	for (int i = 0; i < TOTAL_CHROMOSOME; i++) {
-		cl->chromosomes[i].chance = (double)cl->chromosomes[i].h / (double)h;
+		cl->chromosomes[i].chance = ((double)cl->chromosomes[i].h + EPSILON) / (double)h;
 	}
 }
 
 int compare_chromosomes(const void *a, const void *b) {
 	Chromosome *chromosome_a = (Chromosome *)a;
 	Chromosome *chromosome_b = (Chromosome *)b;
-	return chromosome_b->h - chromosome_a->h; // Sort in descending order of heuristic value
+	return chromosome_b->h - chromosome_a->h;
 }
 
 void sort_chromosome(Chromosomes_list *cl) {
 	qsort(cl->chromosomes, TOTAL_CHROMOSOME, sizeof(Chromosome), compare_chromosomes);
 }
 
-Chromosome *tournament_selection(Chromosomes_list *cl, int tournament_size) {
-	Chromosome *best = NULL;
-	for (int i = 0; i < tournament_size; i++) {
-		int idx = rand() % TOTAL_CHROMOSOME;
-		if (best == NULL || cl->chromosomes[idx].h > best->h) {
-			best = &cl->chromosomes[idx];
-		}
-	}
-	return best;
-}
-
-void shuffle_population(Chromosomes_list *cl) {
-	for (int i = 0; i < TOTAL_CHROMOSOME; i++) {
-		int j = rand() % TOTAL_CHROMOSOME;
-		Chromosome temp = cl->chromosomes[i];
-		cl->chromosomes[i] = cl->chromosomes[j];
-		cl->chromosomes[j] = temp;
-	}
-}
-
-void elitism(Chromosomes_list *cl, Chromosomes_list *new_cl, int elite_size) {
-	for (int i = 0; i < elite_size; i++) {
-		new_cl->chromosomes[i] = cl->chromosomes[i];
-	}
-}
-
 void crossover(Chromosome *state1, Chromosome *state2) {
-	srand(time(NULL));
 	int crossover_point = rand() % TOTAL_VALUES;
 
-	// Perform single-point crossover
 	for (int i = crossover_point; i < TOTAL_VALUES; i++) {
 		Block temp = state1->flat_array[i];
 		state1->flat_array[i] = state2->flat_array[i];
 		state2->flat_array[i] = temp;
 	}
 
-	// Ensure uniqueness in state1
 	int value_count[TOTAL_VALUES] = {0};
 	for (int i = 0; i < TOTAL_VALUES; i++) {
 		value_count[state1->flat_array[i].value]++;
@@ -215,7 +165,7 @@ void crossover(Chromosome *state1, Chromosome *state2) {
 			}
 		}
 	}
-	// Ensure uniqueness in state2
+
 	for (int i = 0; i < TOTAL_VALUES; i++) {
 		value_count[i] = 0;
 	}
@@ -234,4 +184,17 @@ void crossover(Chromosome *state1, Chromosome *state2) {
 			}
 		}
 	}
+}
+
+Chromosome *select_parent(Chromosomes_list *cl) {
+	double r = (double)rand() / RAND_MAX;
+	double cumulative_probability = 0.0;
+
+	for (int i = 0; i < TOTAL_CHROMOSOME; i++) {
+		cumulative_probability += cl->chromosomes[i].chance;
+		if (r <= cumulative_probability) {
+			return &cl->chromosomes[i];
+		}
+	}
+	return &cl->chromosomes[TOTAL_CHROMOSOME - 1];
 }
