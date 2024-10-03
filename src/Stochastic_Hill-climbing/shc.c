@@ -5,7 +5,7 @@ void shc(Cube *cube) {
 	int h_current, h_new;
 	uint8_t u1, u2;
 	int iterations = 0;
-	int MAX_ITERATIONS = 10000;
+	int MAX_ITERATIONS = 1000000;
 
 	uint8_t *linear_cube[TOTAL_VALUES];
 	int index = 0;

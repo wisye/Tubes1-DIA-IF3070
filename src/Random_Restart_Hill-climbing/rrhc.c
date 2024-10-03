@@ -9,6 +9,7 @@ void rrhc(Cube *cube) {
 	int improved = true;
 	int iterations = 0;
 	int restarted = 0;
+	int max_restarted = 4;
 
 	uint8_t *linear_cube[TOTAL_VALUES];
 	int index = 0;
@@ -25,11 +26,14 @@ void rrhc(Cube *cube) {
 	int total_sideways = 0;
 
 	// while ((improved || reached_local_maximum) && h_current < TOTAL_EDGES && restarted < 1) {
-	while (h_current < TOTAL_EDGES && restarted < 1) {
+	while (h_current < TOTAL_EDGES && restarted < max_restarted) {
 
 		if (reached_local_maximum == true) {
-			shuffle_cube(cube);
 			restarted++;
+			if (restarted == max_restarted) {
+				break;
+			}
+			shuffle_cube(cube);
 			h_current = calculate_heuristics(cube);
 			reached_local_maximum = false;
 			printf("Restarted %d\n", restarted);

@@ -41,9 +41,9 @@ void *input_thread(void *arg) {
 			else if (strcmp(input, "rrhc") == 0) {
 				rrhc(cube);
 			}
-			// else if (strcmp(input, "sa") == 0) {
-			// 	sa(cube);
-			// }
+			else if (strcmp(input, "sa") == 0) {
+				sa(cube);
+			}
 			else if (strcmp(input, "shuffle") == 0) {
 				shuffle_cube(cube);
 			}
@@ -136,7 +136,7 @@ void drawBlock(int value, float x, float y, float z, bool isGreen) {
 		glColor4f(0.0f, 1.0f, 0.0f, 0.15f); // Set color to green with 50% opacity
 	}
 	else {
-		glColor4f(0.5f, 0.5f, 1.0f, 0.05f); // Set color to purple with 10% opacity
+		glColor4f(1.0f, 0.0f, 0.0f, 0.05f); // Set color to purple with 10% opacity
 	}
 	glutSolidCube(1.0); // Draw a cube at (x, y, z)
 	glPopMatrix();
