@@ -9,7 +9,7 @@ void rrhc(Cube *cube) {
 	int improved = true;
 	int iterations = 0;
 	int restarted = 0;
-	int max_restarted = 4;
+	int max_restarted = 200;
 
 	uint8_t *linear_cube[TOTAL_VALUES];
 	int index = 0;

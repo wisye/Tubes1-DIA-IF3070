@@ -18,7 +18,8 @@ build:
 	 $(SOURCE_FOLDER)/Random_Restart_Hill-climbing/rrhc.c \
 	 $(SOURCE_FOLDER)/Genetic_Algorithm/ga.c \
 	 $(SOURCE_FOLDER)/visualize_cube.c \
-	 $(SOURCE_FOLDER)/main.c -o $(OUTPUT_FOLDER)/bin
+	 $(SOURCE_FOLDER)/main.c -o \
+	 $(OUTPUT_FOLDER)/bin
 
 run:
 	@./$(OUTPUT_FOLDER)/bin

@@ -11,7 +11,7 @@ double schedule1(int iterations, double temperature_0, double cooling_rate) {
 		return temperature_0 * pow(cooling_rate * 150, iterations);
 	}
 	else if (temperature_0 > 0.0005f && temperature_0 < 0.005f) {
-		return temperature_0 * pow(cooling_rate * 22500, iterations);
+		return temperature_0 * pow(cooling_rate * 1000, iterations);
 	}
 
 	return new_t;

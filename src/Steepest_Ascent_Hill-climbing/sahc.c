@@ -10,7 +10,7 @@ void sahc(Cube *cube) {
 	int iterations = 0;
 
 	//? inisialisasi linear_cube. INI SUPAYA NANTI NGE SWAP GAMPANG, GA
-	// PERLU NESTED LOOP
+	//? PERLU NESTED LOOP
 	uint8_t *linear_cube[TOTAL_VALUES];
 	int index = 0;
 	for (int i = 0; i < SIZE; i++) {
