@@ -140,7 +140,7 @@ void drawBlock(int value, float x, float y, float z, bool isGreen) {
 		glColor4f(0.0f, 1.0f, 0.0f, 0.10f); // Set color to green with 50% opacity
 	}
 	else {
-		glColor4f(1.0f, 0.0f, 0.0f, 0.05f); // Set color to purple with 10% opacity
+		glColor4f(1.0f, 0.0f, 0.0f, 0.20f); // Set color to purple with 10% opacity
 	}
 	glutSolidCube(1.0); // Draw a cube at (x, y, z)
 	glPopMatrix();
@@ -230,8 +230,8 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
-int main(void) {
-	Cube *cube = (Cube *)malloc(sizeof(Cube));
+int visualize_cube(Cube *cube) {
+	// Cube *cube = (Cube *)malloc(sizeof(Cube));
 
 	if (!glfwInit()) {
 		return -1;
@@ -265,7 +265,7 @@ int main(void) {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
 	// Your 3D cube values
-	init_cube(cube);
+	// init_cube(cube);
 
 	// Set the initial viewport and projection
 	int width, height;
@@ -282,6 +282,6 @@ int main(void) {
 	}
 
 	glfwTerminate();
-	free(cube);
+
 	return 0;
 }
