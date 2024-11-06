@@ -55,7 +55,7 @@ void sahc(Cube *cube) {
 			h_current = h_best;
 			iterations++;
 			unflatten_cube2(linear_cube);
-			drawCube(cube);
+			// drawCube(cube);
 			printf("Iteration %d: Improved heuristic to %d\n", iterations, h_current);
 
 			if (h_current == TOTAL_EDGES) {

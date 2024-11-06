@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "Genetic_Algorithm/ga.h"
 #include "Hill-climbing_with_Sideways_Move/hcsm.h"
@@ -16,7 +17,12 @@ int main() {
 
 	init_cube(cube);
 
-	visualize_cube(cube);
+	char choice;
+	puts("1. Steepest ascent hill climbing, its variant, and simulated annealing\n2. Genetic algorithm");
+	scanf("%c", &choice);
+
+	if(choice == '1') visualize_cube(cube);
+	else ga(cube);
 
 	free(cube);
 	return 0;
