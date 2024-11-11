@@ -13,6 +13,16 @@ void init_cube(Cube *cube) {
 	shuffle_cube(cube);
 }
 
+void copy_cube(Cube *og, Cube *fake) {
+	for (int i = 0; i < SIZE; i++) {
+		for (int j = 0; j < SIZE; j++) {
+			for (int k = 0; k < SIZE; k++) {
+				fake->blocks[i][j][k] = og->blocks[i][j][k];
+			}
+		}
+	}
+}
+
 // void display_cube(Cube *cube) {
 // 	for (int i = 0; i < SIZE; i++) {
 // 		for (int j = 0; j < SIZE; j++) {

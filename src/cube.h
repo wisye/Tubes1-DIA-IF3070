@@ -22,6 +22,7 @@ typedef struct {
 } Cube;
 
 void init_cube(Cube *cube);
+void copy_cube(Cube *og, Cube *fake);
 void display_cube(Cube *cube);
 void shuffle_cube(Cube *cube);
 void shuffle(Block *array);
