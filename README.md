@@ -1,4 +1,6 @@
-# Tucil1-DIA-IF3070
+# TUBES1-DIA-IF3070
+
+\*penamaan repo sementara masih tucil, orang yang punya lagi ga bisa edit
 
 Kelompok 66 K01
 18222005 - Matthew Lim
