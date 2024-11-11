@@ -1,7 +1,19 @@
 #include "sahc.h"
 #include <stdbool.h>
+#include <stdio.h>
+#include <time.h>
 
 void sahc(Cube *cube) {
+
+	FILE *file = fopen("src/results/sahc_result.csv", "w");
+
+	if (file == NULL) {
+		perror("Unable to open file");
+		return;
+	}
+
+	fprintf(file, "Iteration,Heuristic Value,Time\n");
+
 	int h_current, h_best, h_new;
 	uint8_t u1, u2;           //? buat nandaian swap
 	uint8_t best_u1, best_u2; //? untuk nyimpan nilai swap terbaik
@@ -20,7 +32,9 @@ void sahc(Cube *cube) {
 			}
 		}
 	}
-
+	clock_t start_time = clock();
+	clock_t end_time;
+	double elapsed_time;
 	h_current = calculate_heuristics(cube);
 	while (improved && h_current < TOTAL_EDGES) {
 		improved = false;
@@ -49,11 +63,11 @@ void sahc(Cube *cube) {
 			}
 		}
 
+		iterations++;
 		if (improved) {
 			//? swap ke best swap
 			swap(linear_cube[best_u1], linear_cube[best_u2]);
 			h_current = h_best;
-			iterations++;
 			unflatten_cube2(linear_cube);
 			// drawCube(cube);
 			printf("Iteration %d: Improved heuristic to %d\n", iterations, h_current);
@@ -67,6 +81,11 @@ void sahc(Cube *cube) {
 			printf("Stopped at iteration %d\n", iterations);
 			printf("Local maximum found with h = %d\n", h_current);
 		}
+		end_time = clock();
+		elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC * 1000;
+		fprintf(file, "%d,%d,%.4f\n", iterations, h_current, elapsed_time);
 		// printf("Total combinations: %d\n", combination);
 	}
+
+	fclose(file);
 }

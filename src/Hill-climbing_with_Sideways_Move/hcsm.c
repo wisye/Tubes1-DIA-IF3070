@@ -1,7 +1,18 @@
 #include "hcsm.h"
 #include <stdbool.h>
+#include <time.h>
 
 void hcsm(Cube *cube) {
+
+	FILE *file = fopen("src/results/hcsm_result.csv", "w");
+
+	if (file == NULL) {
+		perror("Unable to open file");
+		return;
+	}
+
+	fprintf(file, "Iteration,Heuristic Value,Total sideways,Time\n");
+
 	int h_current, h_best, h_new;
 	uint8_t u1, u2;           //? buat nandaian swap
 	uint8_t best_u1, best_u2; //? untuk nyimpan nilai swap terbaik
@@ -20,6 +31,9 @@ void hcsm(Cube *cube) {
 		}
 	}
 
+	clock_t start_time = clock();
+	clock_t end_time;
+	double elapsed_time;
 	h_current = calculate_heuristics(cube);
 	int total_sideways = 0;
 	while (improved && h_current < TOTAL_EDGES) {
@@ -57,11 +71,11 @@ void hcsm(Cube *cube) {
 			}
 		}
 
+		iterations++;
 		if (improved) {
 			//? swap ke best swap
 			swap(linear_cube[best_u1], linear_cube[best_u2]);
 			h_current = h_best;
-			iterations++;
 			unflatten_cube2(linear_cube);
 			// drawCube(cube);
 			printf("Iteration %d: Improved heuristic to %d\n", iterations, h_current);
@@ -76,5 +90,9 @@ void hcsm(Cube *cube) {
 			printf("Local maximum found with h = %d\n", h_current);
 			printf("Total sideways move: %d\n", total_sideways);
 		}
+		end_time = clock();
+		elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC * 1000;
+		fprintf(file, "%d,%d,%d,%.4f\n", iterations, h_current, total_sideways, elapsed_time);
 	}
+	fclose(file);
 }

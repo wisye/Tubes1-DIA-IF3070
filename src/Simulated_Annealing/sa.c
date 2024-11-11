@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 
 double schedule1(int iterations, double temperature_0, double cooling_rate) {
 
@@ -18,12 +19,24 @@ double schedule1(int iterations, double temperature_0, double cooling_rate) {
 }
 
 void sa(Cube *cube) {
+
+	FILE *file = fopen("src/results/sa_result.csv", "w");
+
+	if (file == NULL) {
+		perror("Unable to open file");
+		return;
+	}
+
+	fprintf(file, "Iteration,Heuristic Value,Temperature,Boltzmann Factor,Stuck,Time\n");
 	int h_current, h_new;
 	uint8_t u1, u2;
 	int iterations = 1;
+	int stuck = 0;
+	double boltzman;
+
 	int MAX_ITERATIONS = 100000000;
 
-	double initial_temperature = 1000.0;
+	double initial_temperature = 10.0;
 	double temperature;
 	double cooling_rate = 0.999999;
 
@@ -37,6 +50,11 @@ void sa(Cube *cube) {
 		}
 	}
 
+	h_current = calculate_heuristics(cube);
+
+	clock_t start_time = clock();
+	clock_t end_time;
+	double elapsed_time;
 	h_current = calculate_heuristics(cube);
 
 	for (iterations = 1; iterations < MAX_ITERATIONS; iterations++) {
@@ -64,6 +82,7 @@ void sa(Cube *cube) {
 		h_new = calculate_heuristics(cube);
 
 		int delta_h = h_new - h_current;
+		boltzman = exp(delta_h / temperature);
 
 		if (delta_h > 0) {
 
@@ -80,17 +99,23 @@ void sa(Cube *cube) {
 			}
 
 			else {
-
+				stuck++;
 				swap(linear_cube[u1], linear_cube[u2]); //? ini kalo ga jdi ya ke default
 			}
 		}
 
-		iterations++;
+		// iterations++;
+
 		printf("Iteration %d: Heuristic value: %d, Temperature: %f\n", iterations, h_current, temperature);
 
 		if (h_current == TOTAL_EDGES) {
 			printf("Found a magic cube!\n");
 			break;
 		}
+		end_time = clock();
+		elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC * 1000;
+		fprintf(file, "%d,%d,%f,%f,%d,%.4f\n", iterations, h_current, temperature, boltzman, stuck,
+		        elapsed_time);
 	}
+	fclose(file);
 }
