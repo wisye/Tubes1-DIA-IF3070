@@ -13,11 +13,24 @@ void init_cube(Cube *cube) {
 	shuffle_cube(cube);
 }
 
+// void display_cube(Cube *cube) {
+// 	for (int i = 0; i < SIZE; i++) {
+// 		for (int j = 0; j < SIZE; j++) {
+// 			for (int k = 0; k < SIZE; k++) {
+// 				printf("%d ", cube->blocks[i][j][k].value);
+// 			}
+// 			printf("\n");
+// 		}
+// 		printf("\n");
+// 	}
+// }
+
 void display_cube(Cube *cube) {
 	for (int i = 0; i < SIZE; i++) {
+		printf("Layer %d:\n", i + 1);
 		for (int j = 0; j < SIZE; j++) {
 			for (int k = 0; k < SIZE; k++) {
-				printf("%d ", cube->blocks[i][j][k].value);
+				printf("%2d ", cube->blocks[i][j][k].value);
 			}
 			printf("\n");
 		}
