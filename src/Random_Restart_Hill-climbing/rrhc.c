@@ -41,7 +41,6 @@ void rrhc(Cube *cube) {
 	bool reached_local_maximum = false;
 	int total_sideways = 0;
 
-	// while ((improved || reached_local_maximum) && h_current < TOTAL_EDGES && restarted < 1) {
 	while (h_current < TOTAL_EDGES && restarted <= max_restarted) {
 
 		if (reached_local_maximum == true) {
@@ -109,7 +108,6 @@ void rrhc(Cube *cube) {
 			printf("Local maximum found with h = %d\n", h_current);
 			reached_local_maximum = true;
 			printf("Restarting...\n");
-			// break;
 		}
 		end_time = clock();
 		elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC * 1000;

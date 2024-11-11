@@ -40,13 +40,10 @@ void sahc(Cube *cube) {
 		improved = false;
 		h_best = h_current;
 
-		// int combination = 0;
-
 		for (u1 = 0; u1 < TOTAL_VALUES - 1; u1++) {
 			for (u2 = u1 + 1; u2 < TOTAL_VALUES; u2++) {
 				//? swap
 				swap(linear_cube[u1], linear_cube[u2]);
-				// combination++;
 				//? hitung heuristics
 				h_new = calculate_heuristics(cube);
 
@@ -69,7 +66,6 @@ void sahc(Cube *cube) {
 			swap(linear_cube[best_u1], linear_cube[best_u2]);
 			h_current = h_best;
 			unflatten_cube2(linear_cube);
-			// drawCube(cube);
 			printf("Iteration %d: Improved heuristic to %d\n", iterations, h_current);
 
 			if (h_current == TOTAL_EDGES) {
@@ -84,7 +80,6 @@ void sahc(Cube *cube) {
 		end_time = clock();
 		elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC * 1000;
 		fprintf(file, "%d,%d,%.4f\n", iterations, h_current, elapsed_time);
-		// printf("Total combinations: %d\n", combination);
 	}
 
 	fclose(file);

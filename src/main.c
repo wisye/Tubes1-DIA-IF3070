@@ -18,23 +18,44 @@ int main() {
 	init_cube(cube);
 	copy_cube(cube, initialCube);
 
-	//? instruksi ⬇️
-	//? ini kalian tinggal run aja slah satu algonya satu per satu, nanti buka folder results itu ada. dari situ csv
+	//* --------------------------------- instruksi run dengan visualisasi ⬇️ ------------------------------
+	//* uncomment code (by default ini )
+
+	//* jika sudah menginstall openGL. Akan terpopup window baru jika memasukkan input 1.
+	//* karena bebera kendala, Genetic Algorithm belum bisa di visualisasi
+	char choice;
+	puts("1. Steepest ascent hill climbing, its variant, and simulated annealing\n2. Genetic algorithm");
+	scanf("%c", &choice);
+	if (choice == '1')
+		visualize_cube(cube);
+	else
+		ga(cube);
+
+	//* --------------------------------- instruksi run dengan visualisasi ⬆️ ------------------------------
+
+	//? --------------------------------- instruksi run tanpaa visualisasi ⬇️ ------------------------------
+
+	//? uncomment salah satu algoritma yang mau di run.
+
+	//? ini tinggal run aja slah satu algonya satu per satu, nanti buka folder results itu ada. dari situ csv
 	//? dah dinamain per algo nya
-	//? lngsng make all aja stiap kali ganti algo. misal hcsm(cube) skrng. `make all` di terminal .
+	//? lngsng "make all" aja stiap kali ganti algo. misal hcsm(cube) skrng. `make all` di terminal .
 	//? trus pas ganti algo, rrhc(cube). make all di command. and so on
 
 	// hcsm(cube);
 	// rrhc(cube);
-	sa(cube);
+	// sa(cube);
 	// sahc(cube);
 	// shc(cube);
 
-	printf("Inisial state si cube: \n");
-	display_cube(initialCube);
+	//? uncomment seluruh perintah print dan display ini
 
-	printf("Akhir state si cube: \n");
-	display_cube(cube);
+	// printf("Inisial state si cube: \n");
+	// display_cube(initialCube);
+
+	// printf("Akhir state si cube: \n");
+	// display_cube(cube);
+	//? --------------------------------- instruksi run tanpaa visualisasi ⬆️ ------------------------------
 
 	free(cube);
 	free(initialCube);

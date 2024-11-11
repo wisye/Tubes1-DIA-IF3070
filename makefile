@@ -5,7 +5,7 @@ SOURCE_FOLDER = src
 OUTPUT_FOLDER = bin
 
 WARNING_CFLAG = -Wall -Wextra -Werror
-# OPENGL_FLAG =  -lglfw -lGLEW -lGL -lGLU -lm -lglut
+OPENGL_FLAG =  -lglfw -lGLEW -lGL -lGLU -lm -lglut
 
 all: build run
 

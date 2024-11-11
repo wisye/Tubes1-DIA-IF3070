@@ -1,12 +1,17 @@
 # Tucil1-DIA-IF3070
 
-![emuach](https://gcdnb.pbrd.co/images/7v3mlTBidl59.png?o=1)
+Untuk menjalankan program, pastikan sudah memiliki:
+makefile
 
-> ## Magic number = 315
->
-> Karena semua bilangan berurutan dan tidak ada yang berulang, maka bisa mencari median dimana rata-rata bilangan sama dengan median dengan rumus (n^3 + 1)/2. Untuk mendapatkan magic number, harus menjumlahkan rata-rata bilangan 5x sesuai dengan aturan magic cube sehingga M = 5(5^3 + 1)/2 = 315.
+Jika ingin menjalankan visualisasi kubus, pastikan memiliki openGL
 
-Objective function membuat ada h = 109 rusuk yang nilainya menjadi magic number yaitu 315.
+Jika ingin memulai program bisa dengan 2 alternatif
+Alt 1: Ketik "make run" kemudian "make build" di terminal
+Alt 2: Langsung mengetik "make all" di terminal
+
+Kami menyediakan run tanpa visualisasi dan dengan visualisasi.
+By default program akan jalan dengan visualiasi (menggunakan openGL).
+Tetapi jika tidak, sudah tersedia instruksi di main.c untuk run tanpa visualisasi.
 
 > To build and run the program
 > `make`
