@@ -89,7 +89,9 @@ void sa(Cube *cube) {
 			h_current = h_new;
 		}
 		else {
-
+			if (delta_h == 0) {
+				stuck++;
+			}
 			double probability = exp(delta_h / temperature);
 
 			//? bawah kalo misal si prob dingin gajelasny dipilih
@@ -103,8 +105,6 @@ void sa(Cube *cube) {
 				swap(linear_cube[u1], linear_cube[u2]); //? ini kalo ga jdi ya ke default
 			}
 		}
-
-		// iterations++;
 
 		printf("Iteration %d: Heuristic value: %d, Temperature: %f\n", iterations, h_current, temperature);
 

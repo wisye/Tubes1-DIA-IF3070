@@ -24,9 +24,9 @@ int main() {
 	//? lngsng make all aja stiap kali ganti algo. misal hcsm(cube) skrng. `make all` di terminal .
 	//? trus pas ganti algo, rrhc(cube). make all di command. and so on
 
-	hcsm(cube);
+	// hcsm(cube);
 	// rrhc(cube);
-	// sa(cube);
+	sa(cube);
 	// sahc(cube);
 	// shc(cube);
 
