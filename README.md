@@ -1,5 +1,11 @@
 # Tucil1-DIA-IF3070
 
+Kelompok 66 K01
+18222005 - Matthew Lim
+18222025 - Alessandro Jusack H.
+18222087 - Satria Wisnu W.
+18222095 - Wisyendra Lunar M.
+
 Untuk menjalankan program, pastikan sudah memiliki:
 makefile
 
