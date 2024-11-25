@@ -9,7 +9,7 @@
 #include "Steepest_Ascent_Hill-climbing/sahc.h"
 #include "Stochastic_Hill-climbing/shc.h"
 #include "cube.h"
-// #include "visualize_cube.h"
+#include "visualize_cube.h"
 
 int main() {
 	Cube *cube = (Cube *)malloc(sizeof(Cube));

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 #ifndef _VC_
-#define _VC
+#define _VC_
 
 bool isPartOfSequence(int x, int y, int z, Cube *cube);
 void drawBlock(int value, float x, float y, float z, bool isGreen);

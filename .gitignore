@@ -3,3 +3,4 @@ bin/*
 src/Parents/*
 !src/Parents/.gitkeep
 !bin/.gitkeep
+src/results/*.csv
